@@ -14,7 +14,7 @@ int main() {
         
         // Conteo MUCHO más largo: 40 millones de iteraciones
         for(int i = 1; i <= 40000000; i++) {
-            if(i % 1000000 == 0) {  // Imprimir cada millón
+            if(i % 100000 == 0) {  // Imprimir cada millón
                 printf("Hijo: %d / 40000000\n", i);
             }
         }
