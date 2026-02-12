@@ -1,14 +1,16 @@
-// tiempo_concurrente_verbose.c
+// tiempo_concurrente_verbose.c (CORREGIDO)
 #include <stdio.h>
 #include <time.h>
 #include <unistd.h>
 #include <sys/wait.h>
+#include <sys/time.h>
 
 int main() {
     pid_t hijo, nieto, bisnieto;
-    clock_t inicio, fin;
+    struct timeval inicio, fin;
     
-    inicio = clock();
+    // Usar gettimeofday() en lugar de clock() para medir tiempo real
+    gettimeofday(&inicio, NULL);
     
     hijo = fork();
     
@@ -48,8 +50,14 @@ int main() {
     else {
         // PROCESO PADRE
         wait(NULL);
-        fin = clock();
-        double tiempo_transcurrido = (double)(fin - inicio) / CLOCKS_PER_SEC;
+        
+        // Medir tiempo real transcurrido
+        gettimeofday(&fin, NULL);
+        
+        // Calcular diferencia en segundos
+        double tiempo_transcurrido = (fin.tv_sec - inicio.tv_sec) + 
+                                     (fin.tv_usec - inicio.tv_usec) / 1000000.0;
+        
         printf("\n=== Tiempo transcurrido (concurrente): %f segundos ===\n", tiempo_transcurrido);
     }
     
