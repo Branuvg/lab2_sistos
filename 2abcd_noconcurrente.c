@@ -1,4 +1,3 @@
-// tiempo_secuencial.c
 #include <stdio.h>
 #include <time.h>
 
