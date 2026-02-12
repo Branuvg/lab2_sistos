@@ -12,10 +12,10 @@ int main() {
         // PROCESO HIJO
         printf("Hijo: Mi PID es %d, comenzando conteo...\n", getpid());
         
-        // Conteo de 1 a 4,000,000 (o más si es muy rápido)
-        for(int i = 1; i <= 4000000; i++) {
-            if(i % 100000 == 0) {  // Imprimir cada 100,000 para ver progreso
-                printf("Hijo: %d\n", i);
+        // Conteo MUCHO más largo: 40 millones de iteraciones
+        for(int i = 1; i <= 40000000; i++) {
+            if(i % 1000000 == 0) {  // Imprimir cada millón
+                printf("Hijo: %d / 40000000\n", i);
             }
         }
         
@@ -27,7 +27,6 @@ int main() {
         printf("Padre: Mi PID es %d, hijo PID %d\n", getpid(), hijo);
         printf("Padre: Entrando en ciclo infinito (sin wait)...\n");
         
-        // Ciclo infinito
         while(1) {
             sleep(1);
         }
