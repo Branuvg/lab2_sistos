@@ -1,63 +1,56 @@
+// tiempo_concurrente_verbose.c
 #include <stdio.h>
 #include <time.h>
 #include <unistd.h>
 #include <sys/wait.h>
 
 int main() {
-    pid_t hijo, nieto, bisnieto;  // Parte f: Declarar tres variables pid_t
-    clock_t inicio, fin;  // Parte f: Declarar dos clock_t
+    pid_t hijo, nieto, bisnieto;
+    clock_t inicio, fin;
     
-    inicio = clock(); // Parte g: Llamada a clock() justo ANTES del fork()
+    inicio = clock();
     
-    // Parte g: Primer fork() - crea el proceso hijo
     hijo = fork();
     
     if(hijo == 0) {
         // PROCESO HIJO
-        
-        nieto = fork();  // Parte h: El hijo hace otro fork() - crea el proceso nieto
+        nieto = fork();
         
         if(nieto == 0) {
             // PROCESO NIETO
-            
-            bisnieto = fork(); // Parte h: El nieto hace otro fork() - crea el proceso bisnieto
+            bisnieto = fork();
             
             if(bisnieto == 0) {
                 // PROCESO BISNIETO
-                for(int i = 0; i < 1000000; i++) { // Parte i: El bisnieto ejecuta un ciclo for de 1 millón de iteraciones
+                for(int i = 0; i < 1000000; i++) {
+                    printf("Bisnieto - Iteración: %d\n", i);
                 }
-
                 return 0;
             }
-            // PROCESO NIETO (continuación después del else del if bisnieto)
             else {
-                for(int i = 0; i < 1000000; i++) { // Parte i: El nieto ejecuta su propio ciclo for (EXCLUSIVAMENTE)
+                // PROCESO NIETO
+                for(int i = 0; i < 1000000; i++) {
+                    printf("Nieto - Iteración: %d\n", i);
                 }
-                
-                wait(NULL); // Parte i: El nieto espera a que termine el bisnieto
-                
+                wait(NULL);
                 return 0;
             }
         }
-        // PROCESO HIJO (continuación después del else del if nieto)
         else {
-            for(int i = 0; i < 1000000; i++) { // Parte j: El hijo ejecuta su propio ciclo for (EXCLUSIVAMENTE)
-
+            // PROCESO HIJO
+            for(int i = 0; i < 1000000; i++) {
+                printf("Hijo - Iteración: %d\n", i);
             }
-            wait(NULL);  // Parte j: El hijo espera a que termine el nieto
-            
+            wait(NULL);
             return 0;
         }
     }
     else {
-        
-        wait(NULL); // Parte k: El padre espera a que termine el hijo
-        
-        fin = clock(); // Parte k: Después de que el hijo termine, ejecutar clock()
-        
+        // PROCESO PADRE
+        wait(NULL);
+        fin = clock();
         double tiempo_transcurrido = (double)(fin - inicio) / CLOCKS_PER_SEC;
-        
-        printf("Tiempo transcurrido (concurrente): %f segundos\n", tiempo_transcurrido);
+        printf("\n=== Tiempo transcurrido (concurrente): %f segundos ===\n", tiempo_transcurrido);
     }
     
     return 0;

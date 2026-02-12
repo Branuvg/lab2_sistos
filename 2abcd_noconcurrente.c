@@ -1,29 +1,31 @@
+// tiempo_secuencial_verbose.c
 #include <stdio.h>
 #include <time.h>
 
 int main() {
-    clock_t inicio, fin; // Parte b: Declarar dos variables de tipo clock_t
+    clock_t inicio, fin;
     
-    inicio = clock(); // Parte b: Ejecutar clock() justo ANTES del primer ciclo
+    inicio = clock();
     
-    // Parte a: Tres ciclos for consecutivos de un millón de iteraciones
+    // Primer ciclo con print
     for(int i = 0; i < 1000000; i++) {
-        // No hace nada
+        printf("Ciclo 1 - Iteración: %d\n", i);
     }
     
+    // Segundo ciclo con print
     for(int i = 0; i < 1000000; i++) {
-        // No hace nada
+        printf("Ciclo 2 - Iteración: %d\n", i);
     }
     
+    // Tercer ciclo con print
     for(int i = 0; i < 1000000; i++) {
-        // No hace nada
+        printf("Ciclo 3 - Iteración: %d\n", i);
     }
- 
-    fin = clock();  // Parte b: Ejecutar clock() justo DESPUÉS del último ciclo
     
-    double tiempo_transcurrido = (double)(fin - inicio) / CLOCKS_PER_SEC; // Parte c: Calcular la diferencia y convertir a double
+    fin = clock();
     
-    printf("Tiempo transcurrido: %f segundos\n", tiempo_transcurrido); // Parte d: Desplegar el resultado con %f
+    double tiempo_transcurrido = (double)(fin - inicio) / CLOCKS_PER_SEC;
+    printf("\n=== Tiempo transcurrido: %f segundos ===\n", tiempo_transcurrido);
     
     return 0;
 }
